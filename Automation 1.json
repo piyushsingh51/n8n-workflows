@@ -1,0 +1,177 @@
+{
+  "name": "Automation 1",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Consulting Form",
+        "formDescription": "Fill it",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Name",
+              "placeholder": "Your name",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Service",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Consultation"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.5,
+      "position": [
+        -336,
+        16
+      ],
+      "id": "b7a5e98f-07d5-4c97-92e2-0ed02aa43e5b",
+      "name": "On form submission",
+      "webhookId": "b9031876-b8a7-4d0f-913c-ebfb7d175cc5"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1RyFPiP0--3oikCu6VDOq-iijzHaKmOCqvVlw6XOXjbU",
+          "mode": "list",
+          "cachedResultName": "consult",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1RyFPiP0--3oikCu6VDOq-iijzHaKmOCqvVlw6XOXjbU/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1RyFPiP0--3oikCu6VDOq-iijzHaKmOCqvVlw6XOXjbU/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{ $json.Name }}",
+            "Service": "={{ $json.Service }}",
+            "Time": "={{ $json.submittedAt }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Service",
+              "displayName": "Service",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Time",
+              "displayName": "Time",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -128,
+        16
+      ],
+      "id": "4766f644-3875-405d-ae4b-75b17279764d",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Iae52O1cAxN6M9Jr",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "princesingh898912@gmail.com",
+        "subject": "Hello Form!",
+        "emailType": "text",
+        "message": "=Hii!\n\nHow are you\n\nThere is new lead in the Form\n\nName:{{ $json.Name }}\nService:{{ $json.Service }}\n\nThankyou!\nresource:{{ $workflow.id }}\n\nEnjoy your Day\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        80,
+        16
+      ],
+      "id": "bf6dc496-0745-4d29-bbb6-fe1f8ac82bd3",
+      "name": "Send a message",
+      "webhookId": "89bb9ebc-f64e-4432-8ef4-7801803955da",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "wzGthiKNIbOD9GSF",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "00ff9f06-31cb-4a96-b8d5-2ae1aad19ac7",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "f90b00afbcf5e0a629759051566f57662b228b445246a3da3d7f8cfe4d8c7566"
+  },
+  "nodeGroups": [],
+  "id": "kZdqFt03DkQhe7in",
+  "tags": []
+}
