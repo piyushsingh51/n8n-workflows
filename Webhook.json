@@ -1,0 +1,174 @@
+{
+  "name": "Webhook",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "deed9ea6-452f-448b-a084-faaaa61b9609",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -368,
+        -16
+      ],
+      "id": "8b80044b-144b-4e9f-8dfb-8a443241c981",
+      "name": "Webhook",
+      "webhookId": "deed9ea6-452f-448b-a084-faaaa61b9609"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1d7b61eb-4ca0-4ccf-ab8d-35daa679e15b",
+              "name": "Lead name",
+              "value": "={{ $json.body.name }}",
+              "type": "string"
+            },
+            {
+              "id": "0b437469-e068-4318-8a37-6e684bc06252",
+              "name": "Email",
+              "value": "={{ $json.body.email }}",
+              "type": "string"
+            },
+            {
+              "id": "7fe4c71d-0168-4f48-8802-675f51ba9718",
+              "name": "body.phone",
+              "value": "={{ $json.body.phone }}",
+              "type": "string"
+            },
+            {
+              "id": "4d29ae9c-7b85-4c7d-b175-233860552709",
+              "name": "body.budget",
+              "value": "={{ $json.body.budget }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -192,
+        -16
+      ],
+      "id": "48d02e3a-2ed1-4e83-a10a-44b9f3c2b9a1",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "198FBbmwWo7VMyeObdLm1DF_cbxGXvBIAeAgqhJySyUo",
+          "mode": "list",
+          "cachedResultName": "New Lead",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/198FBbmwWo7VMyeObdLm1DF_cbxGXvBIAeAgqhJySyUo/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/198FBbmwWo7VMyeObdLm1DF_cbxGXvBIAeAgqhJySyUo/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{ $json['Lead name'] }}",
+            "Email": "={{ $json.Email }}",
+            "Budget": "={{ $json.body.budget }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Budget",
+              "displayName": "Budget",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        16,
+        -16
+      ],
+      "id": "75ed5fdf-71e8-4e90-b7eb-1c91866bf1a4",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Iae52O1cAxN6M9Jr",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "a5a2d48f-0cb2-4638-ade9-dab5397021f4",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "f90b00afbcf5e0a629759051566f57662b228b445246a3da3d7f8cfe4d8c7566"
+  },
+  "nodeGroups": [],
+  "id": "l2r9mYsobOSuLbOP",
+  "tags": []
+}
