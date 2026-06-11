@@ -1,0 +1,176 @@
+{
+  "name": "Scholarship Form",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1BNqxxt7lYgarhTs1JN-GB8f3hA-D7bjLMowOJlE88cQ",
+          "mode": "list",
+          "cachedResultName": "Scholarship Form",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1BNqxxt7lYgarhTs1JN-GB8f3hA-D7bjLMowOJlE88cQ/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1476924558,
+          "mode": "list",
+          "cachedResultName": "Form Responses 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1BNqxxt7lYgarhTs1JN-GB8f3hA-D7bjLMowOJlE88cQ/edit#gid=1476924558"
+        },
+        "event": "rowAdded",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        -272,
+        0
+      ],
+      "id": "57041575-7972-4c36-9faf-876b49f292c3",
+      "name": "Google Sheets Trigger",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "5BLR1D60z5LcDprU",
+          "name": "Google Sheets Trigger OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "12546208-8513-4d4a-884d-856bc9976a47",
+              "leftValue": "={{ $json.CGPA }}",
+              "rightValue": "Above 7.5",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -64,
+        0
+      ],
+      "id": "0a9eeb18-ffba-4baa-bb7d-cd00c3446e27",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.Email }}",
+        "subject": "Scholarship Retained",
+        "emailType": "text",
+        "message": "=Congratulations  {{ $json.Name }},Your Scholarship has been retained.",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        144,
+        -96
+      ],
+      "id": "f273eb20-fd60-4f84-90d4-6baf78cefcf2",
+      "name": "Send a message",
+      "webhookId": "cc048aae-590c-4764-8703-32923a80dabc",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "wzGthiKNIbOD9GSF",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Google Sheets Trigger').item.json.Email }}",
+        "subject": "Scholarship Not retained",
+        "emailType": "text",
+        "message": "=Dear {{ $('Google Sheets Trigger').item.json.Name }},your scholarship has not been retained",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        144,
+        96
+      ],
+      "id": "92843f7f-6100-482e-b6d8-aad91c370c4a",
+      "name": "Send a message1",
+      "webhookId": "52207bf5-55a8-4acf-8bf8-1bcd279166a7",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "wzGthiKNIbOD9GSF",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Sheets Trigger": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "b12a4948-9a57-441b-a5f0-237a312f4a60",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "f90b00afbcf5e0a629759051566f57662b228b445246a3da3d7f8cfe4d8c7566"
+  },
+  "nodeGroups": [],
+  "id": "XI1WY77OeDxzTlox",
+  "tags": []
+}
