@@ -50,4 +50,31 @@ Perfect for:
 I build custom n8n automations for businesses.
 
 📧 Contact: piyushsingh897675@gmail.com
+## Workflow 3: Scholarship Form → Conditional Gmail Alert
+
+### 🔧 What This Workflow Does
+When a new row is added in Google Sheets:
+1. Checks SGPA condition (above or below 7.5)
+2. If SGPA > 7.5 → Sends "Congratulations! Scholarship Retained"  email
+3. If SGPA < 7.5 → Sends "Scholarship Not Retained" email
+
+### 🛠 Tools Used
+- n8n
+- Google Sheets Trigger
+- IF condition node
+- Gmail
+
+### 💡 Use Case
+Perfect for:
+- Colleges automating scholarship notifications
+- HR teams sending interview results
+- E-commerce order confirmation emails
+- Any conditional email alert system
+
+---
+
+## 💼 Hire Me
+I build custom n8n automations for any business.
+
+📧 Contact: piyushsingh897675@gmail.com
 
