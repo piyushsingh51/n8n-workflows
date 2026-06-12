@@ -139,3 +139,29 @@ I build custom n8n automations for any business.
 
 📧 Contact: piyushsingh897675@gmail.com
 
+## Workflow 5: Smart Lead Management System
+
+### 🔧 What This Workflow Does
+1. Captures leads from website via Webhook
+2. Calculates lead score based on budget
+3. Saves data to Google Sheets
+4. High value lead → Priority email
+5. Low value lead → Standard email
+
+### 🛠 Tools Used
+- Webhook
+-Edit fields(set)
+- JavaScript (Lead Scoring Logic)
+- Google Sheets
+- IF Condition
+- Gmail
+
+### 💡 Use Case
+- Real estate businesses
+- Digital marketing agencies
+- Any business with lead generation
+
+## 💼 Hire Me
+I build custom n8n automations for any business.
+
+📧 Contact: piyushsingh897675@gmail.com
