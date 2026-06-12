@@ -1,0 +1,329 @@
+{
+  "name": "Smart Lead Management System",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "lead-form",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -464,
+        16
+      ],
+      "id": "44cf0423-815f-4529-bb5d-5d809b9815d1",
+      "name": "Webhook",
+      "webhookId": "62ac9754-1196-4d2b-991b-6f18b433011f"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a4ae2105-af3a-42a3-9306-3b687e90b577",
+              "name": "Name",
+              "value": "={{$json.body.name}}",
+              "type": "string"
+            },
+            {
+              "id": "386cdf28-c49f-4215-a10a-6c03211cc67b",
+              "name": "Email",
+              "value": "={{$json.body.email}}",
+              "type": "string"
+            },
+            {
+              "id": "8a7e74f4-7686-4248-806a-06acf764f97d",
+              "name": "Budget",
+              "value": "={{$json.body.budget}}",
+              "type": "string"
+            },
+            {
+              "id": "61b022b2-e09e-49ed-a819-48731f123ab4",
+              "name": "Service",
+              "value": "={{$json.body.service}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -256,
+        16
+      ],
+      "id": "f03dfc45-c65f-4179-a025-82c6e23d68e2",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const budget = Number($json.Budget);\n\nlet leadScore = 10;\n\nif (budget >= 50000) {\n  leadScore = 100;\n} else if (budget >= 10000) {\n  leadScore = 50;\n}\n\nreturn {\n  json: {\n    ...$json,\n    leadScore\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        0,
+        16
+      ],
+      "id": "63aa9aa8-395b-47e6-a87e-5303698fb53d",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1lAoHW3O7dsYMXUWWNZx5PwaXaxGxQ5R02Lm75w7ugc8",
+          "mode": "list",
+          "cachedResultName": "Lead New",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1lAoHW3O7dsYMXUWWNZx5PwaXaxGxQ5R02Lm75w7ugc8/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1lAoHW3O7dsYMXUWWNZx5PwaXaxGxQ5R02Lm75w7ugc8/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{ $json.Name }}",
+            "                     Email": "={{ $json.Email }}",
+            "Budget": "={{ $json.Budget }}",
+            "Service": "={{ $json.Service }}",
+            "Leadscore": "={{ $json.leadScore }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "                     Email",
+              "displayName": "                     Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Budget",
+              "displayName": "Budget",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Service",
+              "displayName": "Service",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Leadscore",
+              "displayName": "Leadscore",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        208,
+        0
+      ],
+      "id": "60c16b31-823e-47fe-bb2d-768f587a5a13",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Iae52O1cAxN6M9Jr",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "fa4c0c07-0096-4f9a-a666-843b224be153",
+              "leftValue": "={{ $json.Leadscore }}",
+              "rightValue": 50,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        400,
+        16
+      ],
+      "id": "654d3845-209b-42de-8b5e-c021fdf0f5e8",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "sendTo": "babusahab7542@gmail.com",
+        "subject": "🔥 High Value Lead Received",
+        "emailType": "text",
+        "message": "=Name:{{ $json.Name }}:\n\nEmail:{{ $json['                     Email'] }}\n\nBudget: {{ $json.Budget }}\n\nService:{{ $json.Service }} \n\nLead Score{{ $json.Leadscore }}:",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        576,
+        -160
+      ],
+      "id": "c1f44940-e9ef-433e-af6d-847fd0bd9f6c",
+      "name": "Send a message",
+      "webhookId": "0854656f-9b8d-4216-9118-3873a5ec3f26",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "wzGthiKNIbOD9GSF",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "babusahab7542@gmail.com",
+        "subject": "New Lead Received",
+        "emailType": "text",
+        "message": "=Name: {{$json.Name}}\n\nBudget: {{$json.Budget}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        624,
+        144
+      ],
+      "id": "c9d5a0b1-2845-40e1-b565-dc4ba4c991c1",
+      "name": "Send a message1",
+      "webhookId": "7b6b4132-673c-44f1-b964-834c16843a29",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "wzGthiKNIbOD9GSF",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "43e38d13-ad40-4e99-9d41-5fca1fb7595d",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "f90b00afbcf5e0a629759051566f57662b228b445246a3da3d7f8cfe4d8c7566"
+  },
+  "nodeGroups": [],
+  "id": "8InGVd9OUt06eB36",
+  "tags": []
+}
