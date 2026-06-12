@@ -1,0 +1,234 @@
+{
+  "name": "AI Email Generator",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "filters": {
+          "labelIds": [
+            "INBOX"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -256,
+        0
+      ],
+      "id": "07326622-235e-4cec-b186-7ccd1f0754a4",
+      "name": "Gmail Trigger",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "wzGthiKNIbOD9GSF",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.groq.com/openai/v1/chat/completions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer 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"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"llama-3.1-8b-instant\",\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": \"Read this email and write a short professional reply. From{{ $json.From }}: , Subject:{{ $json.Subject }} , Body{{ $json.snippet }}: . Max 100 words.\"\n    }\n  ]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -48,
+        0
+      ],
+      "id": "5f731955-62e4-49f3-9daf-5d6fc820ef8a",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1f5Z-_tnVI9YNYjYoQ2NKiFqYiEX0R98ro8ysHLXYcBI",
+          "mode": "list",
+          "cachedResultName": "Email data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1f5Z-_tnVI9YNYjYoQ2NKiFqYiEX0R98ro8ysHLXYcBI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1f5Z-_tnVI9YNYjYoQ2NKiFqYiEX0R98ro8ysHLXYcBI/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "From": "={{ $('Gmail Trigger').item.json.From }}",
+            "                Subject": "={{ $('Gmail Trigger').item.json.Subject }}",
+            "             Email Body": "={{ $('Gmail Trigger').item.json.snippet }}",
+            "Date": "={{ $now }}",
+            "                  Ai Reply": "={{ $('HTTP Request').item.json.choices[0].message.content }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "From",
+              "displayName": "From",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "             Email Body",
+              "displayName": "             Email Body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "                Subject",
+              "displayName": "                Subject",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "                  Ai Reply",
+              "displayName": "                  Ai Reply",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        160,
+        0
+      ],
+      "id": "01916ab3-3fae-4fd6-8449-bf5050fe460e",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Iae52O1cAxN6M9Jr",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "draft",
+        "subject": "={{ $json['                Subject'] }}",
+        "message": "={{ $('HTTP Request').item.json.choices[0].message.content }}",
+        "options": {
+          "replyTo": "={{ $json.From }}"
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        368,
+        0
+      ],
+      "id": "4d966ddd-0b20-477c-942b-0960af196a3c",
+      "name": "Create a draft",
+      "webhookId": "a2c52961-2228-4782-b399-da7da340b224",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "wzGthiKNIbOD9GSF",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Gmail Trigger": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Create a draft",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "6a0cf6f8-b078-417a-9998-1d1cb7c87adf",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "f90b00afbcf5e0a629759051566f57662b228b445246a3da3d7f8cfe4d8c7566"
+  },
+  "nodeGroups": [],
+  "id": "7SkD4OMqviWv99v9",
+  "tags": []
+}
