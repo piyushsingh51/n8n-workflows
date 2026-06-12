@@ -78,3 +78,64 @@ I build custom n8n automations for any business.
 
 📧 Contact: piyushsingh897675@gmail.com
 
+# 🤖 workflow #4 — Gmail AI Reply Assistant + CRM Tracker
+
+Automatically reads incoming Gmail emails, generates professional AI replies using Groq LLM, saves data to Google Sheets as a personal CRM, and creates Gmail drafts ready to send with one click.
+
+> ⚠️ **Note:** This system is fully capable of sending emails automatically without human involvement. However, it is intentionally set to **Draft mode** for security and quality control — ensuring a human reviews every AI-generated reply before sending. This is **Responsible AI Automation**.
+
+---
+
+## 🔄 How It Works
+
+```
+New Email Arrives in Gmail
+         ↓
+Gmail Trigger fires instantly
+         ↓
+HTTP Request → Groq AI reads email & generates reply
+         ↓
+Google Sheets → Email data + AI reply saved (CRM)
+         ↓
+Gmail Draft created → Human reviews → Send! ✅
+```
+
+---
+
+## ✨ Features
+
+- ⚡ Auto-triggered on every new incoming email
+- 🧠 Groq AI reads full email context & writes professional reply
+- 📊 Built-in CRM — all emails + AI replies tracked in Google Sheets
+- 📝 Draft saved in Gmail — human review before sending
+- 🔒 Intentionally NOT auto-sending — responsible AI design
+- 🔄 Can be switched to auto-send mode if client requires
+
+---
+
+## 🛠 Tech Stack
+
+| Tool | Purpose |
+|------|---------|
+| n8n | Workflow automation engine |
+| Gmail Trigger | Detects new incoming emails |
+| Groq AI (llama-3.1-8b-instant) | Generates professional replies (FREE) |
+| Google Sheets | CRM — stores email data + AI replies |
+| Gmail | Creates draft reply |
+
+
+## 💼 Business Use Cases
+
+| Business | Use Case |
+|----------|----------|
+| 🏥 Clinics/Doctors | Patient inquiry auto-drafts |
+| 💼 Freelancers | Client email management |
+| 🎓 Coaching Institutes | Student query handling |
+| 🛒 E-commerce | Customer support emails |
+| ⚖️ CA/Lawyers | Client communication drafts |
+
+## 💼 Hire Me
+I build custom n8n automations for any business.
+
+📧 Contact: piyushsingh897675@gmail.com
+
