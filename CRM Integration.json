@@ -1,0 +1,352 @@
+{
+  "name": "CRM Integration",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "lead-capture",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -496,
+        -16
+      ],
+      "id": "a077ee7c-90ad-4e4d-8d31-70c8167d7693",
+      "name": "Webhook",
+      "webhookId": "0c84180c-fdc4-4a2d-9ec3-8abe2c504143"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "798867f0-a180-49d9-93eb-b23b677ed9e9",
+              "name": "name",
+              "value": "={{ $json.body.name }}",
+              "type": "string"
+            },
+            {
+              "id": "5566f3dc-8003-4acd-a7dd-041fe20199a4",
+              "name": "email",
+              "value": "={{ $json.body.email }}",
+              "type": "string"
+            },
+            {
+              "id": "baf546f5-e6be-4dab-954f-ade51bee09d2",
+              "name": "company",
+              "value": "={{ $json.body.company }}",
+              "type": "string"
+            },
+            {
+              "id": "1fe15187-eff8-4788-bafd-d488c1818529",
+              "name": "budget",
+              "value": "={{ $json.body.budget }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -256,
+        -16
+      ],
+      "id": "81dc67d4-cc41-466f-9b5e-a7e11207320e",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "email": "={{ $json.email }}",
+        "additionalFields": {
+          "companyName": "={{ $json.company }}",
+          "firstName": "={{ $json.name }}"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.hubspot",
+      "typeVersion": 2.2,
+      "position": [
+        -32,
+        -16
+      ],
+      "id": "3ef491d7-08c8-4713-9598-040eba38a649",
+      "name": "Create or update a contact",
+      "credentials": {
+        "hubspotOAuth2Api": {
+          "id": "NSv8XZcQHR2wsZhA",
+          "name": "HubSpot OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1opSHzmqPsvR9rpXWGP11oW7i8at0KZlNM5ji89r-ZZE",
+          "mode": "list",
+          "cachedResultName": "CRM Integration",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1opSHzmqPsvR9rpXWGP11oW7i8at0KZlNM5ji89r-ZZE/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1opSHzmqPsvR9rpXWGP11oW7i8at0KZlNM5ji89r-ZZE/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "       Name": "={{ $('Edit Fields').item.json.name }}",
+            "                    Email": "={{ $('Edit Fields').item.json.email }}",
+            "            Timestamp": "={{ $now }}",
+            "      Budget": "={{ $('Edit Fields').item.json.budget }}",
+            "   Company": "={{ $('Edit Fields').item.json.company }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "       Name",
+              "displayName": "       Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "                    Email",
+              "displayName": "                    Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "   Company",
+              "displayName": "   Company",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "      Budget",
+              "displayName": "      Budget",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "            Timestamp",
+              "displayName": "            Timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "                    Phone",
+              "displayName": "                    Phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        208,
+        -16
+      ],
+      "id": "24f19b20-63d8-4d54-87f9-3dd9899e3a2f",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Iae52O1cAxN6M9Jr",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "2c7f61a9-bbdc-49a6-91a5-ba8bb02bf7a6",
+              "leftValue": "={{ $('Edit Fields').item.json.budget }}",
+              "rightValue": 1000,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        416,
+        -16
+      ],
+      "id": "b471977c-ec85-4b27-b158-7a4e352d0547",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "sendTo": "=To: {{ $('Edit Fields').item.json.email }}",
+        "subject": "=\"Let's talk about automating your business, {{ $('Edit Fields').item.json.name }}\".",
+        "emailType": "text",
+        "message": "=Hi {{ $('Edit Fields').item.json.name }},  Thanks for your interest! Based on your budget  and requirements, I can build a custom automation  solution for {{ $('Edit Fields').item.json.company }}.  Can we schedule a quick 15-minute call this week?\nBest regards,\nPiyush Singh\nN8N Automation Expert",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        624,
+        -112
+      ],
+      "id": "387e4e39-1837-4ab0-8600-b6f95077988d",
+      "name": "Send a message",
+      "webhookId": "6895fe91-a43e-4ee8-aa43-ef91359b82ad",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "wzGthiKNIbOD9GSF",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Edit Fields').item.json.email }}",
+        "subject": "=\"Your automation journey starts here,{{ $('Edit Fields').item.json.name }}\"",
+        "emailType": "text",
+        "message": "=Hi{{ $('Edit Fields').item.json.name }} ,  Thank you for reachingout! I've put together  some free resources to help  {{ $('Edit Fields').item.json.company }}  get started with automation.  I'll follow up with a custom proposal soon. \nBest regards,\nPiyush Singh\nN8N Automation Expert",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        624,
+        80
+      ],
+      "id": "58502df3-1c6e-4d82-ba4a-badf2ff3cd31",
+      "name": "Send a message1",
+      "webhookId": "9c2d212c-5d66-40ee-b05b-e53be857ee50",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "wzGthiKNIbOD9GSF",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Create or update a contact",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create or update a contact": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "ff286fad-1fa9-46c8-86c6-42e292dbb722",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "f90b00afbcf5e0a629759051566f57662b228b445246a3da3d7f8cfe4d8c7566"
+  },
+  "nodeGroups": [],
+  "id": "enxSHGab1GnAjk2d",
+  "tags": []
+}
