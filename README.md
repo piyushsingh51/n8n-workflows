@@ -165,3 +165,25 @@ I build custom n8n automations for any business.
 I build custom n8n automations for any business.
 
 📧 Contact: piyushsingh897675@gmail.com
+
+## Workflow 6: CRM Integration - HubSpot
+
+### 🔧 What This Workflow Does
+- Receives lead data via Webhook
+- Automatically creates contacts in HubSpot CRM
+- Logs all leads in Google Sheets
+- Sends personalized follow-up emails
+- Budget-based conditional routing
+
+### 🛠 Tools Used
+- Webhook, HubSpot CRM API, Google Sheets, Gmail
+
+### 💡 Use Case
+- Lead capture and CRM automation
+- Multi-channel data logging
+- Automated customer follow-ups
+
+## 💼 Hire Me
+I build custom n8n automations for any business.
+
+📧 Contact: piyushsingh897675@gmail.com
