@@ -187,3 +187,36 @@ I build custom n8n automations for any business.
 I build custom n8n automations for any business.
 
 📧 Contact: piyushsingh897675@gmail.com
+
+## Workflow 7: AI Chatbot - Customer Support
+
+### 🤖 What This Workflow Does
+- AI Agent with conversation memory
+- Answers questions from knowledge base
+- Stores chat in Google Sheets
+- Real-time responses
+- Production ready
+
+### 🛠 Tools Used
+- n8n AI Agent Node
+- Google Gemini API
+- Simple Memory (conversation history)
+- Google Sheets (knowledge base)
+
+### 💡 Use Case - PREMIUM PRICING
+- Customer support automation
+- FAQ chatbots
+- Lead qualification
+- Internal knowledge assistants
+
+### 💰 Client Value
+- Saves 20+ hours/week
+- Available 24/7
+- Professional responses
+
+## 💼 Hire Me
+I build custom n8n automations for any business.
+
+📧 Contact: piyushsingh897675@gmail.com
+
+
