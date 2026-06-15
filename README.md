@@ -219,4 +219,35 @@ I build custom n8n automations for any business.
 
 📧 Contact: piyushsingh897675@gmail.com
 
+## Workflow 8: Telegram AI Chatbot
+### 🤖 What This Workflow Does
+- AI Agent with conversation memory
+- Answers questions using Wikipedia tool
+- Real-time Telegram responses
+- Context-aware replies (remembers chat history)
+- No-code automation
+
+### 🛠 Tools Used
+- n8n AI Agent Node
+- Google Gemini API (Free tier)
+- Simple Memory (conversation history)
+- Wikipedia Tool (real-time search)
+- Telegram Bot API
+
+### 💡 Use Case - PREMIUM PRICING
+- Customer support on Telegram
+- FAQ chatbots
+- Personal AI assistant
+- Real-time information queries
+
+### 💰 Client Value
+- 24/7 automated responses
+- Saves 15+ hours/week
+- Zero human intervention needed
+- Instant intelligent replies
+
+## 💼 Hire Me
+I build custom n8n automations for any business.
+📧 Contact: piyushsingh897675@gmail.com
+
 
